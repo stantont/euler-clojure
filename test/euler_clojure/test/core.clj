@@ -31,12 +31,24 @@
        [3 3] 9
        [2 2 3] 12))
 
-(deftest problem-001
-  (is (= 233168 (sum-multiples-less-than [3 5] 1000))))
-
-(deftest problem-002
-  (is (= 4613732 (reduce + (filter even? (take-while #(< % 4000000) (fib-seq)))))))
-
-(deftest problem-003
+(deftest test-factors-loop2
   (is (= [71 839 1471 6857] (factors-loop 600851475143)))
   (is (= 6857 (apply max ( factors-loop 600851475143)))))
+
+(deftest first-prime-factor-test 
+  (are [x y] (= x (first-prime-factor y))
+       2 2
+       3 3
+       2 6
+       3 15
+       11 121))
+
+(deftest prime-factors-test
+  (are [x y] (= x (prime-factors y))
+       [2] 2
+       [3] 3
+       [2 3] 6
+       [3 5] 15
+       [5 7 13 29] 13195))
+
+
