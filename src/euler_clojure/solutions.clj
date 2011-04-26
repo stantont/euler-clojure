@@ -132,3 +132,27 @@
         mx (apply max (map (partial reduce *)
                            (map #(subvec nums %1 %2) lrange urange)))]
     mx))
+
+(defn problem-009
+  "A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
+   a2 + b2 = c2
+   For example, 32 + 42 = 9 + 16 = 25 = 52.
+
+   There exists exactly one Pythagorean triplet for which a + b + c = 1000.
+   Find the product abc.
+   http://projecteuler.net/index.php?section=problems&id=9"
+  []
+  (for [a (range 1 998)
+        b (range a (- 999 a))
+        c (range b (- 1000 (+ a b)))
+        :when (and  (< a b c)
+                    (= (+ (square a) (square b)) (square c))
+                    (= (+ a b c) 1000))]
+    (apply *  [a b c])))
+
+(defn problem-010
+  "The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+   Find the sum of all the primes below two million.
+   http://projecteuler.net/index.php?section=problems&id=10"
+  []
+  (apply + (take-while (partial > 2000000) primes)))
