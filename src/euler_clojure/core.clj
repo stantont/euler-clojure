@@ -75,6 +75,8 @@
       (let [factor (first-prime-factor n)]
         (recur (/ n factor) (conj coll factor))))))
 
+(defn square [n] (* n n))
+
 ;; copied from clojure-contrib - don't know where to find it for 1.3
 (defn abs "(abs n) is the absolute value of n" [n]
   (cond
