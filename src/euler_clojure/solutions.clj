@@ -214,28 +214,32 @@ The product of these numbers is 26  63  78  14 = 1788696.
                   (vec))
         w (count (nth grid 1))
         h (count grid)
-        horiz (for [xstart (range 0 (- w 3))
+        num-points 4
+        build-points (fn [num-pts xstart ystart xincr-fn yincr-fn]
+                       (loop [num-pts num-pts
+                              x xstart
+                              y ystart
+                              pts []]
+                         (if (< num-pts 1)
+                           pts
+                           (recur (dec num-pts)
+                                  (xincr-fn x)
+                                  (yincr-fn y)
+                                  (conj pts [x y])))))
+        horiz (for [xstart (range 0 (- w (dec num-points)))
                     ystart (range 0 h)
-                    :let [xend (+ xstart 4)
-                          ps (partition 2
-                                  (interleave (range xstart xend)
-                                              (repeatedly #(identity ystart))))]]
-                ps)
-        vert (for [ystart (range 0 (- h 3))
+                    :let [pts (build-points num-points xstart ystart #(inc %) #(identity %))]]
+                pts)
+        vert (for [ystart (range 0 (- h (dec num-points)))
                    xstart (range 0 w)
-                   :let [yend (+ ystart 4)
-                         ps (partition 2
-                                       (interleave (repeatedly #(identity xstart))
-                                                   (range ystart yend)))]]
-               ps)
-        diag1 (for [xstart (range 0 (- w 3))
-                    ystart (range 0 (- h 3))
-                    :let [xend (+ xstart 4)
-                          yend (+ ystart 4)
-                          aps (filter #(= (nth % 0) (nth % 1))
-                                     (partition 2 (interleave (range xstart xend)
-                                                              (range ystart yend))))
-                          ps (remove empty? aps)]
-                    :when (= (nth (first aps) 0) (nth (first aps) 1))]
-                ps)]
-    diag1))
+                   :let [pts (build-points num-points xstart ystart #(identity %) #(inc %))]]
+               pts)
+        diag1 (for [xstart (range 0 (- w (dec num-points)))
+                    ystart (range 0 (- h (dec num-points)))
+                    :let [pts (build-points num-points xstart ystart #(inc %) #(inc %))]]
+                pts)
+        diag2 (for [xstart (range (dec num-points) w)
+                    ystart (range (dec num-points) h)
+                    :let [pts (build-points num-points xstart ystart #(dec %) #(inc %))]]
+                pts)]
+    diag2))
