@@ -246,5 +246,8 @@ The product of these numbers is 26  63  78  14 = 1788696.
         get-product (fn [line]
                       (let [nums (map (fn [[x y]] (nth (nth grid y) x)) line)]
                         (reduce * nums)))
-        products (map get-product lines)]
-    (apply max products)))
+        products (map #(vector (get-product %) %) lines)
+        mx (apply max (map #(first %)  products))]
+    ;;instead of just returning max, return max and coordinates
+    (filter #(= mx (first %)) products)
+    ))
