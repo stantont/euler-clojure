@@ -239,7 +239,12 @@ The product of these numbers is 26  63  78  14 = 1788696.
                     :let [pts (build-points num-points xstart ystart #(inc %) #(inc %))]]
                 pts)
         diag2 (for [xstart (range (dec num-points) w)
-                    ystart (range (dec num-points) h)
+                    ystart (range 0 (- h (dec num-points)))
                     :let [pts (build-points num-points xstart ystart #(dec %) #(inc %))]]
-                pts)]
-    diag2))
+                pts)
+        lines (concat horiz vert diag1 diag2)
+        get-product (fn [line]
+                      (let [nums (map (fn [[x y]] (nth (nth grid y) x)) line)]
+                        (reduce * nums)))
+        products (map get-product lines)]
+    (apply max products)))
