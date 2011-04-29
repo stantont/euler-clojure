@@ -51,4 +51,5 @@
        [3 5] 15
        [5 7 13 29] 13195))
 
-
+(deftest triangle-numbers-test
+  (is (= [1, 3, 6, 10, 15, 21, 28, 36, 45, 55] (take 10 (triangle-numbers)))))
