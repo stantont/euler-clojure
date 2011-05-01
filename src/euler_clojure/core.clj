@@ -1,5 +1,6 @@
 (ns euler-clojure.core
   ;(:use [clojure.contrib.lazy-seqs :only [primes]])
+  (:require [clojure.set :as set])
   (import [java.lang Math]))
 
 (defn multiple-of-any?
@@ -116,3 +117,20 @@
   (cond (zero? a) 0
         (zero? b) 0
         :else (abs (* b (quot a (gcd a b))))))
+
+(defn divisors
+  "Returns a set of the divisors for n"
+  [n]
+  (let [candidates (set/select
+                    #(zero? (rem n %))
+                    (set (range 2 (inc (quot n 2)))))]
+    (conj candidates 1 n)))
+
+(defn num-divisors [n]
+  "Number of divisors for a given number
+
+   See http://clojure.roboloco.net/?p=140 and
+       http://en.wikipedia.org/wiki/Divisor_function"
+  (let [freqs (reduce #(assoc %1 %2 (inc (get %1 %2 0)))
+                      {} (prime-factors n))]
+    (reduce #(* %1 (inc %2)) 1 (vals freqs))))

@@ -53,3 +53,19 @@
 
 (deftest triangle-numbers-test
   (is (= [1, 3, 6, 10, 15, 21, 28, 36, 45, 55] (take 10 (triangle-numbers)))))
+
+(deftest divisors-test
+  (are [x y] (= x (divisors y))
+       #{1} 1
+       #{1 2} 2
+       #{1 3} 3
+       #{1 2 4} 4
+       #{1 2 5 10} 10
+       #{1, 2, 4, 5, 10, 20, 25, 50, 100} 100))
+
+(deftest num-divisors-test
+  (are [x y] (= x (num-divisors y))
+       1 1
+       2 2
+       2 3
+       4 10))
