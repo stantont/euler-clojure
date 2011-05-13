@@ -24,6 +24,7 @@
    0 1))
 
 ;; another way of doing from a different euler project I had created
+;; Infinite Fibonacci lazy sequence
 (def fibs
   "Infinite Fibonacci lazy sequence"
   (map first (iterate (fn [[a b]] [b (+ a b)]) [0 1])))
