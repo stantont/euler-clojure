@@ -23,7 +23,7 @@ something Project Euler-specific, but the first good result I got was
 exactly that, someone's mathematical solution to this problem. 
 
 But this person's
-[solution[(http://www.joaoff.com/2008/01/20/a-square-grid-path-problem/)
+[solution](http://www.joaoff.com/2008/01/20/a-square-grid-path-problem/)
 had the insight to view it as a series of R(ight) and D(own) elements
 in a string, or sequence, with an equal number of each element due to
 it being a square. 
