@@ -26,7 +26,6 @@
 ;; another way of doing from a different euler project I had created
 ;; Infinite Fibonacci lazy sequence
 (def fibs
-  "Infinite Fibonacci lazy sequence"
   (map first (iterate (fn [[a b]] [b (+ a b)]) [0 1])))
 
 (defn sum-even-fibs-less-than
@@ -65,6 +64,18 @@
                (lazy-seq
                 (cons acc (tris (inc curr) (+ acc (inc curr))))))]
     (tris 1 1)))
+
+(defn collatz
+  "Collatz problem function.
+   Returns results if n is odd: 3n + 1.
+   If n is even: n / 2"
+  [n]
+  (let [even-fn (fn [n] (/ n 2))
+        odd-fn (fn [n] (inc (* n 3)))]
+    (cond
+     (= n 1) 1
+     (odd? n) (odd-fn n)
+     :else (even-fn n))))
 
 (defn factors-loop
   "Looks for each successive prime number as a factor.
