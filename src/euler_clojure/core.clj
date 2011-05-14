@@ -139,10 +139,12 @@
     (conj candidates 1 n)))
 
 (defn num-divisors [n]
+(defn num-divisors 
   "Number of divisors for a given number
 
    See http://clojure.roboloco.net/?p=140 and
        http://en.wikipedia.org/wiki/Divisor_function"
+  [n]
   (let [freqs (reduce #(assoc %1 %2 (inc (get %1 %2 0)))
                       {} (prime-factors n))]
     (reduce #(* %1 (inc %2)) 1 (vals freqs))))
