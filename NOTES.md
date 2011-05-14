@@ -9,6 +9,8 @@ Memory" errors and the time taken went up dramatically. I found
 a write-up for the solution on a blog that used a loop to keep track
 of the longest Collatz sequence rather than generating all of the
 sequences and then finding the longest. So I did that and it worked
-like a charm.
+like a charm. 
+
+Took from 28 to 35 seconds on the MacBook Air.
 
 
