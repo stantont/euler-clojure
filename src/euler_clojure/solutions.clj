@@ -416,3 +416,12 @@ The product of these numbers is 26  63  78  14 = 1788696.
                     (recur (inc num) len num)
                     (recur (inc num) max-len max-num))))))]
     (max-collatz 1000000)))
+
+(defn problem-015
+  "Starting in the top left corner of a 2x2 grid, there are 6 routes
+   (without backtracking) to the bottom right corner.
+   How many routes are there through a 2020 grid?
+   http://projecteuler.net/index.php?section=problems&id=15"
+  []
+  (let [n 20]
+    (/ (fact (* 2 n)) (* (fact n) (fact n)))))
