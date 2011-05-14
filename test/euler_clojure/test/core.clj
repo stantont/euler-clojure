@@ -82,3 +82,11 @@
        2 4
        1 2
        1 1))
+
+(deftest fact-test
+  (are [x y] (= (fact x) y)
+       2 2
+       3 6
+       4 24)
+  (is (thrown? AssertionError (fact -4)))
+  (is (thrown? AssertionError (fact 0))))

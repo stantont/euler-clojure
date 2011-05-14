@@ -138,7 +138,6 @@
                     (set (range 2 (inc (quot n 2)))))]
     (conj candidates 1 n)))
 
-(defn num-divisors [n]
 (defn num-divisors 
   "Number of divisors for a given number
 
@@ -148,3 +147,10 @@
   (let [freqs (reduce #(assoc %1 %2 (inc (get %1 %2 0)))
                       {} (prime-factors n))]
     (reduce #(* %1 (inc %2)) 1 (vals freqs))))
+
+(defn fact
+  "Factorial of a positive number.
+   Result is product of all numbers less than or equal to number."
+  [num]
+  {:pre [(pos? num)]}
+  (reduce * (range 2 (inc num))))
