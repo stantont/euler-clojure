@@ -399,13 +399,20 @@ The product of these numbers is 26  63  78  14 = 1788696.
 
    NOTE: Once the chain starts the terms are allowed to go above one million."
   []
-  (let [mem-f (memoize collatz)
-        vs (fn ([n] (conj (vec (take-while #(not= 1 %) (iterate collatz n))) 1)))
-        ;mem-vs (memoize vs)
-        compare (fn [a b] (if (> (count a) (count b))
-                           a b))
-        nums (range 999999 0 -2)
-        longest (reduce compare (map vs nums))]
-    ;(println (str longest))
-    ;(reduce compare (vs (first nums)) (next nums))
-    longest))
+  (letfn [(collatz-seq-length [n]
+            (loop [n n
+                   len 1]
+              (if (= n 1)
+                len
+                (recur (collatz n) (inc len)))))
+          (max-collatz [up-to]
+            (loop [num 1
+                   max-len 0
+                   max-num 0]
+              (if (> num up-to)
+                {:max-len max-len :max-num max-num}
+                (let [len (collatz-seq-length num)]
+                  (if (> len max-len)
+                    (recur (inc num) len num)
+                    (recur (inc num) max-len max-num))))))]
+    (max-collatz 1000000)))
