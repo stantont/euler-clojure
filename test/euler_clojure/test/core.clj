@@ -90,3 +90,31 @@
        4 24)
   (is (thrown? AssertionError (fact -4)))
   (is (thrown? AssertionError (fact 0))))
+
+(deftest num-digits-test
+  (are [x y] (= (num-digits x) y)
+       1 1
+       2 1
+       10 2
+       1234 4
+       12345 5
+       999 3
+       1000 4
+       0 1
+       -1 1
+       -10 2
+       -9 1))
+
+(deftest digits-test
+  (are [x y] (= (digits x) y)
+       1 [1]
+       2 [2]
+       12 [1 2]
+       9 [9]
+       10 [1 0]
+       99 [9 9]
+       100 [1 0 0]
+       0 [0]
+       -1 [-1]
+       -99 [-9 -9]
+       -100 [-1 0 0]))

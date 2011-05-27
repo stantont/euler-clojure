@@ -1,6 +1,7 @@
 (ns euler-clojure.core
   ;(:use [clojure.contrib.lazy-seqs :only [primes]])
-  (:require [clojure.set :as set])
+  (:require [clojure.set :as set]
+            [clojure.contrib.math :as math])
   (import [java.lang Math]))
 
 (defn multiple-of-any?
@@ -154,3 +155,27 @@
   [num]
   {:pre [(pos? num)]}
   (reduce * (range 2 (inc num))))
+
+(defn num-digits
+  "Number of digits in a given number"
+  [n]
+  ;; add 1 to n. Log10 of 1 is 0, so need to bump it up.
+  (if (= n 0)
+    1
+    (int (Math/ceil (Math/log10 (inc (Math/abs n)))))))
+
+(defn digits
+  "Seq of individual digits in a number."
+  [n]
+  (if (= n 0)
+    [0]
+    (vec (let [ns (loop [n (math/abs n) ds [] idx 10]
+                    (let [r (mod n idx)]
+                      (if (= n 0)
+                        ds
+                        (recur (- n r)
+                               (cons (quot r (quot idx 10)) ds)
+                               (* 10 idx)))))]
+           (if (< n 0)
+             (map - ns)
+             ns)))))
