@@ -35,3 +35,15 @@ sure the input is a positive number. And doing Project Euler in
 Clojure has two goals: learn more about functional programming and
 Clojure and re-familiarize myself with mathematics, in some cases
 learning entirely new concepts.  
+
+## Problem 16
+Problem 16 was adding up all the digits in 2 to 1000th power. The easy
+way would have been to convert it to a string and just pull the
+individual characters. But I wanted to do it mathematically, so I
+created a function that incrementally takes the modulo of a power of
+10.
+
+I was poking around and found a function to get the number of digits
+in a number using the log10, which I thought I might use, but it
+wasn't necessary. I'll keep it around in case I need it in the
+future. 
