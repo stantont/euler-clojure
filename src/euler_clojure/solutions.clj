@@ -436,3 +436,5 @@ The product of these numbers is 26  63  78  14 = 1788696.
         ns (digits n)]
     (apply + ns)))
 
+(defn problem-016-alt []
+  (apply + (map #(Integer/parseInt (str %)) (seq (str (math/expt 2 1000))))))
