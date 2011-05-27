@@ -1,6 +1,7 @@
 (ns euler-clojure.solutions
   (:use [euler-clojure.core])
-  (:require [clojure.string :as str]))
+  (:require [clojure.string :as str]
+            [clojure.contrib.math :as math]))
 
 (defn problem-001 
   "Add all the natural numbers below one thousand that are multiples of 3 or 5.
@@ -425,3 +426,13 @@ The product of these numbers is 26  63  78  14 = 1788696.
   []
   (let [n 20]
     (/ (fact (* 2 n)) (* (fact n) (fact n)))))
+
+(defn problem-016
+  "2 ** 15 = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.
+
+   What is the sum of the digits of the number 2 ** 1000?"
+  []
+  (let [n (math/expt 2 1000)
+        ns (digits n)]
+    (apply + ns)))
+
