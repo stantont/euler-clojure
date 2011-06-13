@@ -118,3 +118,65 @@
        -1 [-1]
        -99 [-9 -9]
        -100 [-1 0 0]))
+
+(deftest largest-power-of-ten-test
+  (are [x y] (= (largest-power-of-ten x) y)
+       1 0
+       2 0
+       9 0
+       10 1
+       11 1
+       99 1
+       100 2
+       999 2
+       1000 3))
+
+(deftest number-parts-test
+  (are [x y] (= (number-parts x) y)
+       1 [1]
+       2 [2]
+       9 [9]
+       10 [10]
+       11 [10 1]
+       12 [10 2]
+       19 [10 9]
+       20 [20]
+       21 [20 1]
+       99 [90 9]
+       100 [100]
+       101 [100 1]))
+
+(deftest thousands-part-to-words-test
+  (are [x y z] (= (thousands-part-to-words x y) z)
+       [1] 0 "one"
+       [2] 0 "two"
+       [9] 0 "nine"
+       [0 1] 0 "ten"
+       [1 1] 0 "eleven"
+       [9 1] 0 "nineteen"
+       [0 2] 0 "twenty"
+       [1 2] 0 "twenty-one"
+       [9 2] 0 "twenty-nine"
+       [0 3] 0 "thirty"
+       [9 9] 0 "ninety-nine"
+       [0 0 1] 0 "one hundred"
+       [1 0 1] 0 "one hundred and one"
+       [0 1 1] 0 "one hundred and ten"
+       [9 9 1] 0 "one hundred and ninety-nine"
+       [9 9 9] 0 "nine hundred and ninety-nine"
+       [1] 1 "one thousand"))
+
+(deftest number-to-words-test
+  (are [x y] (= (number-to-words x) y)
+       1 "one"
+       2 "two"
+       9 "nine"
+       10 "ten"
+       15 "fifteen"
+       20 "twenty"
+       23 "twenty-three"
+       99 "ninety-nine"
+       100 "one hundred"
+       200 "two hundred"
+       998 "nine hundred and ninety-eight"
+       1000 "one thousand"))

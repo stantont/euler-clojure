@@ -1,6 +1,7 @@
 (ns euler-clojure.core
   ;(:use [clojure.contrib.lazy-seqs :only [primes]])
   (:require [clojure.set :as set]
+            [clojure.string :as str]
             [clojure.contrib.math :as math])
   (import [java.lang Math]))
 
@@ -179,3 +180,91 @@
            (if (< n 0)
              (map - ns)
              ns)))))
+
+(defn largest-power-of-ten
+  "Gets the largest exponent of 10 that will divide the given number.
+
+   Example: (largest-power-of-10 999) ;returns 2"
+  [num]
+  ;only handling positive numbers for now
+  ;{:pre [(pos? num)]}
+  (-> num Math/log10 math/floor int))
+
+(defn number-parts
+  "Returns vector of each power of ten part of number.
+
+   Example 789 return [700 80 9]"
+  [num]
+  (loop [n num parts []]
+    (if (= 0 n)
+      parts
+      (let [e (largest-power-of-ten n)
+            div (math/expt 10 e)
+            q (quot n div)
+            r (rem n div)]
+        (if (= e 0)
+          (conj parts q)
+          (recur r (conj parts (* div q))))))))
+
+(def num-word-map
+  (sorted-map 1 "one" 2 "two" 3 "three" 4 "four" 5 "five" 6 "six" 
+              7 "seven" 8 "eight" 9 "nine" 10 "ten" 11 "eleven"
+              12 "twelve" 13 "thirteen" 14 "fourteen" 15 "fifteen"
+              16 "sixteen" 17 "seventeen" 18 "eighteen"
+              19 "nineteen" 20 "twenty" 30 "thirty"
+              40 "forty" 50 "fifty" 60 "sixty" 70 "seventy"
+              80 "eighty" 90 "ninety"
+              100 "hundred" 
+              1000 "thousand"
+              1000000 "million"
+              1000000000 "billion"))
+
+(defn thousands-part-to-words [digits thousands-part]
+  (letfn [(tens-ones-to-words [digits]  
+            (if (= 0 (first digits))
+              (if (= 0 (second digits))
+                ""
+                (num-word-map (* 10 (second digits))))
+              (if (or (not (second digits)) (= 0 (second digits)))
+                (num-word-map (first digits))
+                (if (= 1 (second digits))
+                  (num-word-map (+ (first digits) (* 10 (second digits))))
+                  (str (num-word-map (* 10  (second digits))) "-" 
+                       (num-word-map (first digits)))))))
+          (hundreds-to-words [digit]
+            (if (or (nil? digit) (zero? digit))
+              ""
+              (str (num-word-map digit) " hundred")))
+          (thousands-part-to-words [t]
+            (if (or (= t 0) (every? zero? digits))
+              ""
+              (num-word-map (math/expt 10 (* 3 t)))))]
+    (let [tens-ones (tens-ones-to-words (take 2 digits))
+          hundreds (hundreds-to-words (nth digits 2 nil))
+          and-word (if (and (> (nth digits 2 0) 0)
+                            (some (comp not zero?) (take 2 digits)))
+                     "and"
+                     "")
+          thousands (thousands-part-to-words thousands-part)]
+      (str/replace
+       (str/trim
+        (str/join " "
+                  [hundreds
+                   and-word
+                   tens-ones
+                   thousands])) #"\s{2,}" " "))))
+
+(defn number-to-words
+  "Convert a number to words.
+
+   Examples: 1001 ;one thousand and one
+             721  ;seven hundred and twenty-one"
+  [num]
+  (let [num-parts
+        (->> num digits reverse (partition-all 3))
+        thousands-parts-words
+        (map-indexed (fn [idx itm] (thousands-part-to-words itm idx)) num-parts)
+        non-empty-parts (filter (comp not empty?) thousands-parts-words)]
+    ; not sure about putting "and" in between. Doesn't seem right.
+    (str/replace (str/trim (str/join " and  " (reverse non-empty-parts)))
+                 #"\s{2,}" " ")))
