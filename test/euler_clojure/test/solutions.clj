@@ -8,5 +8,6 @@
 (deftest problem-002-test
   (is (= 4613732 (problem-002))))
 
-
+(deftest problem-017-test
+  (is (= 21124 (problem-017))))
 
